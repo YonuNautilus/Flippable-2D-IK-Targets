@@ -1,7 +1,9 @@
 @tool
 extends Marker2D
-class_name IKTarget
+class_name FlippableFABRIKTarget
 
+@export var nummerOfBones = 2
+@export var start_bone: Bone2D
 @export var end_bone: Bone2D
 @export var min_buffer = 1.0
 @export var max_buffer = 1.0
@@ -9,27 +11,50 @@ class_name IKTarget
 @export var active = true
 @export var active_in_editor = true
 
-
+var boneArray = Array()
 var flipped:
-	get: return end_bone.global_scale.x * end_bone.global_scale.y < 0
+	get:
+		var ret = end_bone.global_scale.x * end_bone.global_scale.y < 0
+		#print(str(end_bone.global_scale.x) + ", " + str(end_bone.global_scale.y))
+		#print(ret)
+		return ret
 
 
 var face:
 	get: return -1 if flipped else 1
 
+func _ready():
+	boneArray.append(start_bone)
+	
+	var checkBone: Bone2D = start_bone
+	
+	#Child bones should always be at index 1 (because sprite is at index 0)
+	while checkBone != end_bone:
+		checkBone = checkBone.get_child(1)
+		boneArray.append(checkBone)
+		
+	print(boneArray.size())
+	
 
 func _process(delta):
 	if active:
+		#print(position.x)
 		calculate()
 	
 
 func calculate():
-	if end_bone and (active_in_editor or not Engine.is_editor_hint()):
+	if boneArray and (active_in_editor or not Engine.is_editor_hint()):
+
+		for bonePart in boneArray:
+			var bone_length = bonePart.get_length() * abs(bonePart.global_scale.y)
+			var bone_sqr = bone_length * bone_length
+			
+			var target_offet = global_position - bonePart.global_position
 		
 		var end_length = end_bone.get_length() * abs(end_bone.global_scale.y)
 		var end_sqr = end_length * end_length
 		
-		var start_bone = end_bone.get_parent()
+		var start_bone = boneArray[0]
 		var start_length = start_bone.get_length() * abs(start_bone.global_scale.y)
 		var start_sqr = start_length * start_length
 		
@@ -51,9 +76,10 @@ func calculate():
 				start_bone.global_rotation = at - start_target_angle
 				end_bone.rotation = end_target_angle
 			
-			for child in end_bone.get_children():
-				if child is Sprite2D:
-					child.rotation = PI
+			for bonePart in boneArray:
+				for child in bonePart.get_children():
+					if child is Sprite2D:
+						child.rotation = PI
 		else:
 			if flip_joint:
 				start_bone.global_rotation = at + start_target_angle

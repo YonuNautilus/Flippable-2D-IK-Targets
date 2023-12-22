@@ -1,7 +1,12 @@
-# IKTarget
-A custom two-bone IK class for Godot 4.1 that doesn't throw a tantrum when you flip it.
+# Flippable 2D IK Targets
 
-So this is a bit janky still since I don't fully understand the math behind it. It works perfectly for me, your mileage may vary.
+## Forked from [this repository](https://github.com/elliottTreinen/IKTarget)
+
+Custom classes for Godot 4.2.1 for various IK types that don't throw a tantrum when you flip the containing tree.
+
+Can be janky.
+
+## The steps for setting up the original 2 Bone IK target script is below. I plan to update this later
 
 In order to get this to work you need to:
 

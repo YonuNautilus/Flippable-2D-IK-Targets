@@ -1,12 +1,16 @@
 @tool
 extends Marker2D
 class_name FlippableCCDIKTarget
+##A target modification similar to CCDIK or LookAt, with angle constraints.
+##Useful for both setting and constraining the angle of a foot at the end of a leg 2-bone IK chain
 
 @export var bone: Bone2D
 @export var active = true
 @export var active_in_editor = true
 @export var upper_constraint: float = 0
 @export var lower_constraint: float = 0
+##True to show the constraining angles as lines.
+##Red for upper contraint, blue for lower constraint
 @export var target_lines_on: = false
 
 var target_lines: Array[Line2D]

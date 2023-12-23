@@ -2,14 +2,18 @@
 extends Marker2D
 class_name Flippable2BoneIKTarget
 
+##The second bone of the 2-bone chain
 @export var end_bone: Bone2D
 @export var min_buffer = 1.0
 @export var max_buffer = 1.0
+##If the joint should bend the other way
 @export var flip_joint = false
 @export var active = true
 @export var active_in_editor = true
+##True if there is a third bone after end_bone that is not part of the IK chain
 @export var has_extra_bone = false
-@export var extra_bone_own_rotation = false
+##True if the rotation of the extra bone should follow the rotation of the target marker
+@export var extra_bone_follow_rotation = false
 
 
 var flipped:
@@ -73,8 +77,10 @@ func calculate():
 				if has_extra_bone:
 					if child is Bone2D:
 						child.position.x = -end_bone.get_length()
-						if !extra_bone_own_rotation:
+						if !extra_bone_follow_rotation:
 							child.rotation = PI
+						else:
+							child.rotation = rotation + PI
 
 		else:
 			if flip_joint:
@@ -90,5 +96,7 @@ func calculate():
 				if has_extra_bone:
 					if child is Bone2D:
 						child.position.x = end_bone.get_length()
-						if !extra_bone_own_rotation:
+						if !extra_bone_follow_rotation:
 							child.rotation = 0
+						else:
+							child.rotation = rotation

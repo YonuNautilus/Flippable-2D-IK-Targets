@@ -29,6 +29,3 @@ Here's a look at a working setup, flipping the root Node2D should successfully m
 ![image](/Doc/Part3.jpg)
 
 ![image](/Doc/Part4.jpg)
-
-![image](/Doc/Part5.jpg)
-

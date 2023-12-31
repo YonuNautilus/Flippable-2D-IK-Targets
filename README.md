@@ -15,6 +15,7 @@ Can be janky.
 - Sprites should be moved into position only using the OFFSET, flip_h or flip_v, **NOT** transform
 - Segments of the IK chain ALSO need to point to the right.
 
+#### YOU DO NOT NEED TO SET UP THE IK MODIFICATION IN THE SKELETON, but it doesnt seem to break if you do
 - Set up the base Two-bone IK in the skeleton's modification stack (see 6. in the images below), using a Marker2D as the target node
 - Apply the Flippable 2Bone IK script to the Marker2D target
 - In the Marker2D's inspector view, set the 'end bone' to the end bone on the 2Bone IK chain.

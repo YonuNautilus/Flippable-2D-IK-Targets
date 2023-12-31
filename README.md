@@ -6,32 +6,29 @@ Custom classes for Godot 4.2.1 for various IK types that don't throw a tantrum w
 
 Can be janky.
 
-## The steps for setting up the original 2 Bone IK target script is below. I plan to update this later
+## FABRIK script not done yet, sorry :(
 
-In order to get this to work you need to:
+## Setting up Two Bone IK
 
-- Set the 'Bone Angle' and rotation of both bones in the chain to ZERO.
-- Edit the sprites for the arm segments so they point to the RIGHT.
-- Set the position and rotation of the sprites to ZERO, adjust them using their offset and flip_h/flip_v properties.
-- Cross your fingers and hope it works
+- All sprites need to be pointing to the right (see first image below for example).
+- Sprites should be moved into position only using the OFFSET, flip_h or flip_v, **NOT** transform
+- Segments of the IK chain ALSO need to point to the right.
 
-This means that when setting up your rig, all arms/legs using IK should be pointing to the right until you activate the IK.
+- Set up the base Two-bone IK in the skeleton's modification stack (see 6. in the images below), using a Marker2D as the target node
+- Apply the Flippable 2Bone IK script to the Marker2D target
+- In the Marker2D's inspector view, set the 'end bone' to the end bone on the 2Bone IK chain.
+
+Now, when you flip a parent node of the skeleton, the IK should not totally flip out! Well, hopefully.
 
 Here's a look at a working setup, flipping the root Node2D should successfully mirror the skeleton:
 
-![image](https://github.com/elliottTreinen/IKTarget/assets/11053393/26cd01e4-2b00-473e-a8df-558c812f2ad7)
+![image](/Doc/Part1.jpg)
 
-![image](https://github.com/elliottTreinen/IKTarget/assets/11053393/d445ced1-832b-46d4-9598-206e8dbcc77e)
+![image](/Doc/Part2.jpg)
 
-![image](https://github.com/elliottTreinen/IKTarget/assets/11053393/25055012-591e-419e-9149-6d638d260361)
+![image](/Doc/Part3.jpg)
 
-![image](https://github.com/elliottTreinen/IKTarget/assets/11053393/c044ccb6-476a-467a-ae82-a3d5ec06c9b0)
+![image](/Doc/Part4.jpg)
 
-![image](https://github.com/elliottTreinen/IKTarget/assets/11053393/c95014a6-3e73-4a73-bdfe-81ad9ffdfb04)
+![image](/Doc/Part5.jpg)
 
-
-And the sprites used:
-
-![leg_1](https://github.com/elliottTreinen/IKTarget/assets/11053393/7f114d71-fa32-4223-8084-3a805065a12a)
-
-![leg_3](https://github.com/elliottTreinen/IKTarget/assets/11053393/93e14bce-5beb-4039-b4ea-d2b2dae9a004)

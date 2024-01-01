@@ -14,7 +14,8 @@ class_name Flippable2BoneIKTarget
 @export var has_extra_bone = false
 ##True if the rotation of the extra bone should follow the rotation of the target marker
 @export var extra_bone_follow_rotation = false
-
+##True if this 2Bone IK is attached to another 2BoneIK
+@export var is_flippable_child = false
 
 var flipped:
 	get: return end_bone.global_scale.x * end_bone.global_scale.y < 0
@@ -31,7 +32,7 @@ func _process(delta):
 
 func calculate():
 	if end_bone and (active_in_editor or not Engine.is_editor_hint()):
-		
+
 		#get length of end bone and its square
 		var end_length = end_bone.get_length() * abs(end_bone.global_scale.y)
 		var end_sqr = end_length * end_length
@@ -59,11 +60,12 @@ func calculate():
 		
 		#get the angle of that offset
 		var at = atan2(target_offset.y, target_offset.x)
-
-#		if has_extra_bone:
-#			var target_offset_exta = 
 		
 		if flipped:
+			if is_flippable_child:
+				var parent_bone : Bone2D = start_bone.get_parent()
+				start_bone.position.x = -parent_bone.get_length()
+			
 			if flip_joint:
 				start_bone.global_rotation = at + start_target_angle
 				end_bone.rotation = -end_target_angle
@@ -83,6 +85,10 @@ func calculate():
 							child.rotation = rotation + PI
 
 		else:
+			if is_flippable_child:
+				var parent_bone : Bone2D = start_bone.get_parent()
+				start_bone.position.x = parent_bone.get_length()
+			
 			if flip_joint:
 				start_bone.global_rotation = at + start_target_angle
 				end_bone.rotation = PI + end_target_angle

@@ -2,6 +2,8 @@
 extends Marker2D
 class_name FlippableFABRIKTarget
 
+@export var bone_datas : Array[FlippableFABRIKBone] = []
+
 @export var nummerOfBones = 2
 @export var start_bone: Bone2D
 @export var end_bone: Bone2D
@@ -43,9 +45,11 @@ func _process(delta):
 	
 
 func calculate():
-	if boneArray and (active_in_editor or not Engine.is_editor_hint()):
+	if bone_datas and (active_in_editor or not Engine.is_editor_hint()):
+		
+		var original_global_pose = get_global_transform()
 
-		for bonePart in boneArray:
+		for bonePart in bone_datas:
 			var bone_length = bonePart.get_length() * abs(bonePart.global_scale.y)
 			var bone_sqr = bone_length * bone_length
 			
@@ -54,7 +58,7 @@ func calculate():
 		var end_length = end_bone.get_length() * abs(end_bone.global_scale.y)
 		var end_sqr = end_length * end_length
 		
-		var start_bone = boneArray[0]
+		var start_bone = bone_datas[0]
 		var start_length = start_bone.get_length() * abs(start_bone.global_scale.y)
 		var start_sqr = start_length * start_length
 		
@@ -76,7 +80,7 @@ func calculate():
 				start_bone.global_rotation = at - start_target_angle
 				end_bone.rotation = end_target_angle
 			
-			for bonePart in boneArray:
+			for bonePart in bone_datas:
 				for child in bonePart.get_children():
 					if child is Sprite2D:
 						child.rotation = PI

@@ -35,10 +35,10 @@ func _ready():
 		checkBone = checkBone.get_child(1)
 		boneArray.append(checkBone)
 		
-	print(boneArray.size())
+	#print(boneArray.size())
 	
 
-func _process(delta):
+func _process(_delta):
 	if active:
 		#print(position.x)
 		calculate()

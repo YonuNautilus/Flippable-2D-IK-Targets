@@ -19,7 +19,7 @@ var face:
 	get: return -1 if flipped else 1
 
 
-func _process(delta):
+func _process(_delta):
 	if active:
 		calculate()
 	

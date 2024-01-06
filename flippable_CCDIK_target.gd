@@ -41,7 +41,7 @@ func _ready():
 			l.rotation = deg_to_rad(lower_constraint)
 			l.default_color = Color.BLUE
 
-func _process(delta):
+func _process(_delta):
 	if active:
 		calculate()
 
